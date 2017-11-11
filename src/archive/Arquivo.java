@@ -10,23 +10,15 @@ package archive;
  * @author rafae
  */
 public class Arquivo {
-    private String nome;
-    private int posicaoInicio;
+    private long posicaoInicio;
     private long tamanho;
+    private String nome;
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public int getPosicaoInicio() {
+    public long getPosicaoInicio() {
         return posicaoInicio;
     }
 
-    public void setPosicaoInicio(int posicaoInicio) {
+    public void setPosicaoInicio(long posicaoInicio) {
         this.posicaoInicio = posicaoInicio;
     }
 
@@ -36,6 +28,14 @@ public class Arquivo {
 
     public void setTamanho(long tamanho) {
         this.tamanho = tamanho;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
     
     
