@@ -8,11 +8,7 @@ package archive;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import javax.swing.JFileChooser;
 
 /**
@@ -35,16 +31,26 @@ public class TelaPrincipal extends javax.swing.JFrame {
         c.setBackground(new Color(182, 230, 245));
         txtArquivo.setDisabledTextColor(Color.black);
         txtArquivadorDiretorio.setDisabledTextColor(Color.black);
+        txtArquivadorDiretorio.setText(System.getProperty("user.dir"));
         txtArquivadorExtensao.setDisabledTextColor(Color.black);
         tblArquivos.setSelectionModel(new ForcedListSelectionModel());
-        tblArquivos.setModel(new ArquivosTableModel(null));
-        gerarTabelaArquivos();
+        trocouArchive();
     }
 
     private void gerarTabelaArquivos(){
         tblArquivos.getTableHeader().setFont(new Font("Courier New", Font.BOLD, 15));
         tblArquivos.getColumnModel().getColumn(1).setMaxWidth(200);
         tblArquivos.getColumnModel().getColumn(1).setPreferredWidth(200);
+    }
+    
+    private void trocouArchive() {
+        if (txtArquivadorDiretorio.getText().length() > 0) {
+            File fileArchive = new File(txtArquivadorDiretorio.getText() + "\\" + txtArquivadorNome.getText() + txtArquivadorExtensao.getText());
+            Arquivador archive = new Arquivador(fileArchive);
+            
+            tblArquivos.setModel(new ArquivosTableModel(archive.getArquivos()));
+            gerarTabelaArquivos();
+        }
     }
     
     
@@ -298,40 +304,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     return;
                 }
             }
-            try {
-                FileInputStream fileInput = new FileInputStream(arq);
-                ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-                byte[] buf = new byte[1024];
-                try {
-                    for (int readNum; (readNum = fileInput.read(buf)) != -1;) {
-                        byteOutput.write(buf, 0, readNum);
-                    }
-                } catch (IOException ex) {
-                }
-                byte[] bytes = byteOutput.toByteArray();
-
-                Arquivo a = new Arquivo();
-                a.setNome(arq.getName());
-                a.setTamanho(byteOutput.size());
-                archive.addArquivos(a);
-                tblArquivos.setModel(new ArquivosTableModel(archive.getArquivos()));
-                gerarTabelaArquivos();
-                File fileArchive = new File(txtArquivadorDiretorio.getText() + "\\" + txtArquivadorNome.getText() + txtArquivadorExtensao.getText());
-                archive.salvar(fileArchive);
-                
-                byteOutput.close();
-                fileInput.close();
+            File fileArchive = new File(txtArquivadorDiretorio.getText() + "\\" + txtArquivadorNome.getText() + txtArquivadorExtensao.getText());
+            archive.setArchive(fileArchive);
+            if (archive.escreverArquivo(arq)) {
                 // Exibir mensagem de "O arquivo foi adicionado com sucesso ao arquivador "txtArquivador.getText()   .got."
-
-                /*File someFile = new File(arq.getName());
-                FileOutputStream fos = new FileOutputStream(someFile);
-                fos.write(bytes);
-                fos.flush();
-                fos.close();*/
-                txtArquivo.setText("");
-            } catch (FileNotFoundException ex) {
-            } catch (IOException ex) {
-            } 
+            }
+            else {
+                // Exibir mensagem de "Arquivo não adicionado"
+            }
+            tblArquivos.setModel(new ArquivosTableModel(archive.getArquivos()));
+            gerarTabelaArquivos();
+            txtArquivo.setText("");
         } catch (NullPointerException ex) { // Mensagem selecione um arquivo
         }
     }//GEN-LAST:event_btnAdicionarArquivoActionPerformed
@@ -341,6 +324,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
             // Exibir mensagem "selecione um arquivo"
         }
         else {
+            // Exibir mensagem de confirmação
+            // if(confirmado) 
             
         }
     }//GEN-LAST:event_btnRemoverArquivoActionPerformed
@@ -361,14 +346,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jfc.setAcceptAllFileFilterUsed(false);
         if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
             txtArquivadorDiretorio.setText(jfc.getSelectedFile().toString());
+            trocouArchive();
         }
     }//GEN-LAST:event_btnEscolherDiretorioActionPerformed
 
     private void txtArquivadorNomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtArquivadorNomeFocusLost
-        if (txtArquivadorDiretorio.getText().length() > 0) {
-            File fileArchive = new File(txtArquivadorDiretorio.getText() + "\\" + txtArquivadorNome.getText() + txtArquivadorExtensao.getText());
-            Arquivador archive = new Arquivador(fileArchive);
-        }
+        trocouArchive();
     }//GEN-LAST:event_txtArquivadorNomeFocusLost
 
     /**
