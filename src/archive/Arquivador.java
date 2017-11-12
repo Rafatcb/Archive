@@ -12,10 +12,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
-import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -28,18 +26,54 @@ public class Arquivador {
     private int quantidadeArquivos;
     private List<Arquivo> arquivos;
     private File archive;
+    private File extracao;
 
 
     /**
      * Salvar a atual lista de arquivos em memória para o archive especificado
-     * @param archive 
      */
-    public void salvar(File archive) {
-        
+    public void salvar() {
+        try {
+            if (this.quantidadeArquivos > 0) {
+                RandomAccessFile raf = new RandomAccessFile(this.archive, "rw");
+                Arquivador archiveTemp = new Arquivador(this.archive);
+                for (int i = 0; i < this.quantidadeArquivos; i++) {
+                    /* Gravação das novas informações no Header */
+                    String qtd = String.format("%02d", this.quantidadeArquivos);
+                    System.out.println(qtd);
+                    raf.seek(0);
+                    raf.write(qtd.getBytes());
+
+                    raf.seek(2 + i*ESPACO_ARQUIVO_HEADER);
+                    String pos = String.format("%010d", this.arquivos.get(i).getPosicaoInicio());
+                    raf.write(pos.getBytes());
+                    String tam = String.format("%08d", this.arquivos.get(i).getTamanho());
+                    raf.write(tam.getBytes());
+                    String nome = preencherDireita(this.arquivos.get(i).getNome(), 100);
+                    raf.write(nome.getBytes());
+
+                    /* Gravação do Arquivo no Archive */
+                    raf.seek(this.arquivos.get(i).getPosicaoInicio());
+                    raf.write(archiveTemp.getBytesArquivo(this.arquivos.get(i).getNome()));
+                }
+                /* Preencher Header com espaços */
+                raf.seek(2 + this.quantidadeArquivos*ESPACO_ARQUIVO_HEADER);
+                String preencher = "";
+                preencher = preencherDireita(preencher, ESPACO_HEADER - 2 - this.quantidadeArquivos*ESPACO_ARQUIVO_HEADER);
+                raf.write(preencher.getBytes());
+                raf.close();
+            }
+            else {
+                System.out.println(this.archive);
+                Files.delete(this.archive.toPath());
+            }
+        } catch (IOException ex){
+            ex.printStackTrace();
+        }
     }
     
     /**
-     * Ler todo o header do archvie especificado para montar a lista de arquivos em memória
+     * Ler todo o header do archive especificado para montar a lista de arquivos em memória
      */
     public void lerMontarLista() {
         this.arquivos = new ArrayList();
@@ -159,17 +193,45 @@ public class Arquivador {
             raf.close();
             
             /* Escrita do arquivo */
-            File futuroArquivo = new File(arquivos.get(pos).getNome());
+            File futuroArquivo = new File(this.extracao + File.separator + this.arquivos.get(pos).getNome());
             FileOutputStream fos = new FileOutputStream(futuroArquivo);
             fos.write(bytes);
             fos.flush();
             fos.close();
-
         } catch (IOException ex) {
-            
         }
     }
     
+    public byte[] getBytesArquivo(String nome) {
+        try {
+            RandomAccessFile raf = new RandomAccessFile(this.archive, "r");
+            int pos = 0;
+            /* Chegar ao arquivo desejado */
+            while (!arquivos.get(pos).getNome().equals(nome)) {
+                pos++;
+            }
+            
+            /* Leitura do Arquivo */
+            raf.seek(arquivos.get(pos).getPosicaoInicio());
+            ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+            byte[] buf = new byte[4096];
+            byte[] bytes;
+            long faltam = arquivos.get(pos).getTamanho();
+            while (faltam > 4096) {
+                faltam -= 4096;
+                byteOutput.write(buf, 0, raf.read(buf));
+            } 
+            byteOutput.write(buf, 0, raf.read(buf, 0, (int) faltam));
+            bytes = byteOutput.toByteArray();
+            byteOutput.close();
+            raf.close();
+            
+            /* Retorno do arquivo */
+            return bytes;
+        } catch (IOException ex) {
+            return null;
+        }
+    }
     
     /**
      * Converte os 10 bytes da 'posição inicio' para um long
@@ -227,6 +289,14 @@ public class Arquivador {
         lerMontarLista();
     }
 
+    public File getExtracao() {
+        return extracao;
+    }
+
+    public void setExtracao(File extracao) {
+        this.extracao = extracao;
+    }
+
     public File getArchive() {
         return archive;
     }
@@ -243,6 +313,7 @@ public class Arquivador {
     public void removeArquivos(int pos) {
         arquivos.remove(pos);
         this.quantidadeArquivos--;
+        this.salvar();
     }
     
     public int getQuantidadeArquivos() {

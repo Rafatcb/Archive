@@ -45,7 +45,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     
     private void trocouArchive() {
         if (txtArquivadorDiretorio.getText().length() > 0) {
-            File fileArchive = new File(txtArquivadorDiretorio.getText() + "\\" + txtArquivadorNome.getText() + txtArquivadorExtensao.getText());
+            File fileArchive = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText() + txtArquivadorExtensao.getText());
             archive = new Arquivador(fileArchive);
             
             tblArquivos.setModel(new ArquivosTableModel(archive.getArquivos()));
@@ -81,6 +81,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtArquivadorNome = new javax.swing.JTextField();
         txtArquivadorExtensao = new javax.swing.JTextField();
+        chkNovoDiretorio = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -175,42 +176,52 @@ public class TelaPrincipal extends javax.swing.JFrame {
         txtArquivadorExtensao.setEnabled(false);
         txtArquivadorExtensao.setPreferredSize(new java.awt.Dimension(700, 24));
 
+        chkNovoDiretorio.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        chkNovoDiretorio.setSelected(true);
+        chkNovoDiretorio.setText("Criar uma nova pasta ao extrair");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(51, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(48, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(323, 323, 323)
                         .addComponent(jLabel3))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 755, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(txtArquivadorDiretorio, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnEscolherDiretorio)
-                                .addGap(12, 12, 12)
-                                .addComponent(txtArquivadorNome, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnEscolherArquivo)
-                            .addComponent(txtArquivadorExtensao, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(44, 44, 44))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 755, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(128, 128, 128)
+                                .addComponent(btnAdicionarArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnRemoverArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(7, 7, 7)
+                                .addComponent(btnExtrairArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(7, 7, 7)
+                                .addComponent(btnExtrairTudo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(146, 146, 146)))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                    .addComponent(txtArquivadorDiretorio, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(btnEscolherDiretorio)
+                                    .addGap(12, 12, 12)
+                                    .addComponent(txtArquivadorNome, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btnEscolherArquivo)
+                                .addComponent(txtArquivadorExtensao, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(47, 47, 47))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(179, 179, 179)
-                .addComponent(btnAdicionarArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnRemoverArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
-                .addComponent(btnExtrairArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
-                .addComponent(btnExtrairTudo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(263, 263, 263)
+                .addComponent(chkNovoDiretorio)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -237,7 +248,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
                                 .addComponent(txtArquivadorNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txtArquivadorExtensao, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(btnEscolherDiretorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(chkNovoDiretorio)
+                .addGap(11, 11, 11)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAdicionarArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRemoverArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -245,7 +258,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     .addComponent(btnExtrairTudo, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel2);
@@ -304,7 +317,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     return;
                 }
             }
-            File fileArchive = new File(txtArquivadorDiretorio.getText() + "\\" + txtArquivadorNome.getText() + txtArquivadorExtensao.getText());
+            File fileArchive = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText() + txtArquivadorExtensao.getText());
             archive.setArchive(fileArchive);
             if (archive.escreverArquivo(arq)) {
                 // Exibir mensagem de "O arquivo foi adicionado com sucesso ao archive "txtArquivador.getText()   .got."
@@ -326,7 +339,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         else {
             // Exibir mensagem de confirmação
             // if(confirmado) 
-            
+            archive.removeArquivos(tblArquivos.getSelectedRow());
+            tblArquivos.setModel(new ArquivosTableModel(archive.getArquivos()));
+            gerarTabelaArquivos();
         }
     }//GEN-LAST:event_btnRemoverArquivoActionPerformed
 
@@ -337,12 +352,50 @@ public class TelaPrincipal extends javax.swing.JFrame {
         else {
             // Exibir mensagem de confirmação
             // if(confirmado) 
+            if (chkNovoDiretorio.isSelected()) {
+                File diretorio = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText() + File.separator);
+                if (!diretorio.exists()) {
+                    try{
+                        diretorio.mkdir();
+                    } 
+                    catch(SecurityException se){
+                        //mensagem de "Acesso negado pelo Sistema Operacional"
+                    }        
+                }
+                File fileExtracao = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText());
+                archive.setExtracao(fileExtracao);
+            }
+            else {
+                File fileExtracao = new File(txtArquivadorDiretorio.getText());
+                archive.setExtracao(fileExtracao);
+            }
             archive.extrairArquivo(tblArquivos.getSelectedRow());
         }
     }//GEN-LAST:event_btnExtrairArquivoActionPerformed
 
     private void btnExtrairTudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExtrairTudoActionPerformed
-        // TODO add your handling code here:
+        // Exibir mensagem de confirmação
+        // if(confirmado) 
+        if (chkNovoDiretorio.isSelected()) {
+            File diretorio = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText() + File.separator);
+            if (!diretorio.exists()) {
+                try{
+                    diretorio.mkdir();
+                } 
+                catch(SecurityException se){
+                    //mensagem de "Acesso negado pelo Sistema Operacional"
+                }        
+            }
+            File fileExtracao = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText());
+            archive.setExtracao(fileExtracao);
+        }
+        else {
+            File fileExtracao = new File(txtArquivadorDiretorio.getText());
+            archive.setExtracao(fileExtracao);
+        }
+        for (int i = 0; i < tblArquivos.getRowCount(); i++) {
+            archive.extrairArquivo(i);
+        }
     }//GEN-LAST:event_btnExtrairTudoActionPerformed
 
     private void btnEscolherDiretorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEscolherDiretorioActionPerformed
@@ -403,6 +456,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnExtrairArquivo;
     private javax.swing.JButton btnExtrairTudo;
     private javax.swing.JButton btnRemoverArquivo;
+    private javax.swing.JCheckBox chkNovoDiretorio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
