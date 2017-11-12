@@ -8,9 +8,11 @@ package archive;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,7 +60,7 @@ public class Arquivador {
                     Arquivo arq = new Arquivo();
                     arq.setPosicaoInicio(converterPosInicio(bufferPosInicio));
                     arq.setTamanho(converterTamanho(bufferTamanho));
-                    arq.setNome(new String(bufferNome));
+                    arq.setNome(new String(bufferNome).replaceAll("\\s+$", ""));
                     this.arquivos.add(arq);
                 }
             }
@@ -113,8 +115,6 @@ public class Arquivador {
 
                 /* Gravação do Arquivo no Archive */
                 raf.seek(a.getPosicaoInicio());
-                System.out.println(raf.length());
-                System.out.println(a.getPosicaoInicio());
                 raf.write(bytes);
                 
                 raf.close();
@@ -134,6 +134,41 @@ public class Arquivador {
         }
         return false;
     }
+    
+    /**
+     * Método para extrair um arquivo para o mesmo diretório em que o archive está
+     * @param pos - Posição do arquivo na tabela, começando do 0
+     */
+    public void extrairArquivo(int pos) {
+        try {
+            RandomAccessFile raf = new RandomAccessFile(this.archive, "r");
+
+            /* Leitura do Arquivo */
+            raf.seek(arquivos.get(pos).getPosicaoInicio());
+            ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+            byte[] buf = new byte[1];
+            byte[] bytes;
+            while (byteOutput.size() < arquivos.get(pos).getTamanho()) {
+                byteOutput.write(buf, 0, raf.read(buf));
+            } 
+            bytes = byteOutput.toByteArray();
+            byteOutput.close();
+            raf.close();
+            
+            /* Escrita do arquivo */
+            File futuroArquivo = new File(arquivos.get(pos).getNome());
+            FileOutputStream fos = new FileOutputStream(futuroArquivo);
+            fos.write(bytes);
+            /*System.out.println("Tamanho do bytes:" + bytes.length);
+            System.out.println("Tamanho do arquivo: " + arquivos.get(pos).getTamanho());*/
+            fos.flush();
+            fos.close();
+
+        } catch (IOException ex) {
+            
+        }
+    }
+    
     
     /**
      * Converte os 10 bytes da 'posição inicio' para um long

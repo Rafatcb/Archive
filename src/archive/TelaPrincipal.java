@@ -46,7 +46,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void trocouArchive() {
         if (txtArquivadorDiretorio.getText().length() > 0) {
             File fileArchive = new File(txtArquivadorDiretorio.getText() + "\\" + txtArquivadorNome.getText() + txtArquivadorExtensao.getText());
-            Arquivador archive = new Arquivador(fileArchive);
+            archive = new Arquivador(fileArchive);
             
             tblArquivos.setModel(new ArquivosTableModel(archive.getArquivos()));
             gerarTabelaArquivos();
@@ -307,7 +307,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             File fileArchive = new File(txtArquivadorDiretorio.getText() + "\\" + txtArquivadorNome.getText() + txtArquivadorExtensao.getText());
             archive.setArchive(fileArchive);
             if (archive.escreverArquivo(arq)) {
-                // Exibir mensagem de "O arquivo foi adicionado com sucesso ao arquivador "txtArquivador.getText()   .got."
+                // Exibir mensagem de "O arquivo foi adicionado com sucesso ao archive "txtArquivador.getText()   .got."
             }
             else {
                 // Exibir mensagem de "Arquivo não adicionado"
@@ -331,7 +331,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRemoverArquivoActionPerformed
 
     private void btnExtrairArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExtrairArquivoActionPerformed
-        // TODO add your handling code here:
+        if (tblArquivos.getSelectedRow() == -1) {
+            // Exibir mensagem "selecione um arquivo"
+        }
+        else {
+            // Exibir mensagem de confirmação
+            // if(confirmado) 
+            archive.extrairArquivo(tblArquivos.getSelectedRow());
+        }
     }//GEN-LAST:event_btnExtrairArquivoActionPerformed
 
     private void btnExtrairTudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExtrairTudoActionPerformed
