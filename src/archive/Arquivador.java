@@ -146,11 +146,14 @@ public class Arquivador {
             /* Leitura do Arquivo */
             raf.seek(arquivos.get(pos).getPosicaoInicio());
             ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-            byte[] buf = new byte[1];
+            byte[] buf = new byte[4096];
             byte[] bytes;
-            while (byteOutput.size() < arquivos.get(pos).getTamanho()) {
+            long faltam = arquivos.get(pos).getTamanho();
+            while (faltam > 4096) {
+                faltam -= 4096;
                 byteOutput.write(buf, 0, raf.read(buf));
             } 
+            byteOutput.write(buf, 0, raf.read(buf, 0, (int) faltam));
             bytes = byteOutput.toByteArray();
             byteOutput.close();
             raf.close();
@@ -159,8 +162,6 @@ public class Arquivador {
             File futuroArquivo = new File(arquivos.get(pos).getNome());
             FileOutputStream fos = new FileOutputStream(futuroArquivo);
             fos.write(bytes);
-            /*System.out.println("Tamanho do bytes:" + bytes.length);
-            System.out.println("Tamanho do arquivo: " + arquivos.get(pos).getTamanho());*/
             fos.flush();
             fos.close();
 
