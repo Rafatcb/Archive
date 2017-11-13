@@ -32,7 +32,7 @@ public class Arquivador {
     /**
      * Salvar a atual lista de arquivos em memória para o archive especificado
      */
-    public void salvar() {
+    private void salvar() {
         try {
             if (this.quantidadeArquivos > 0) {
                 RandomAccessFile raf = new RandomAccessFile(this.archive, "rw");
@@ -75,7 +75,7 @@ public class Arquivador {
     /**
      * Ler todo o header do archive especificado para montar a lista de arquivos em memória
      */
-    public void lerMontarLista() {
+    private void lerMontarLista() {
         this.arquivos = new ArrayList();
         try{
             byte[] buffer = new byte[2];
@@ -144,7 +144,7 @@ public class Arquivador {
                 String nome = preencherDireita(a.getNome(), 100);
                 raf.write(nome.getBytes());
                 String preencher = "";
-                preencher = preencherDireita(preencher, ESPACO_HEADER - 2 - quantidadeArquivos*ESPACO_ARQUIVO_HEADER);
+                preencher = preencherDireita(preencher, ESPACO_HEADER - 2 - (quantidadeArquivos+1)*ESPACO_ARQUIVO_HEADER);
                 raf.write(preencher.getBytes());
 
                 /* Gravação do Arquivo no Archive */
@@ -202,7 +202,7 @@ public class Arquivador {
         }
     }
     
-    public byte[] getBytesArquivo(String nome) {
+    private byte[] getBytesArquivo(String nome) {
         try {
             RandomAccessFile raf = new RandomAccessFile(this.archive, "r");
             int pos = 0;
@@ -266,7 +266,7 @@ public class Arquivador {
      * @param n - quantidade de espaços
      * @return String preenchida
      */
-    public String preencherDireita(String s, int n) {
+    private String preencherDireita(String s, int n) {
         return String.format("%1$-" + n + "s", s);  
     }
     
