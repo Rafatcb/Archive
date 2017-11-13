@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.io.File;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 
 /**
@@ -18,7 +19,7 @@ import javax.swing.JFileChooser;
 public class TelaPrincipal extends javax.swing.JFrame {
     File arq;
     Arquivador archive = new Arquivador(null);
-         
+
     /**
      * Creates new form TelaPrincipal
      */
@@ -64,7 +65,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        lblBackground = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtArquivo = new javax.swing.JTextField();
@@ -82,14 +82,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         txtArquivadorNome = new javax.swing.JTextField();
         txtArquivadorExtensao = new javax.swing.JTextField();
         chkNovoDiretorio = new javax.swing.JCheckBox();
+        lblBackground = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
         jPanel1.setOpaque(false);
         jPanel1.setLayout(null);
-        jPanel1.add(lblBackground);
-        lblBackground.setBounds(0, 0, 850, 500);
 
         jPanel2.setOpaque(false);
 
@@ -99,6 +98,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         txtArquivo.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
         txtArquivo.setEnabled(false);
 
+        btnEscolherArquivo.setText("...");
         btnEscolherArquivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEscolherArquivoActionPerformed(evt);
@@ -118,7 +118,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblArquivos);
 
-        btnAdicionarArquivo.setText("Add");
+        btnAdicionarArquivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/BotaoAdicionar.png"))); // NOI18N
+        btnAdicionarArquivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAdicionarArquivoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAdicionarArquivoMouseExited(evt);
+            }
+        });
         btnAdicionarArquivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAdicionarArquivoActionPerformed(evt);
@@ -132,27 +140,52 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
         jLabel2.setText("Diretório do Archive");
 
-        btnRemoverArquivo.setText("Remover");
+        btnRemoverArquivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/BotaoRemover.png"))); // NOI18N
+        btnRemoverArquivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnRemoverArquivoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnRemoverArquivoMouseExited(evt);
+            }
+        });
         btnRemoverArquivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRemoverArquivoActionPerformed(evt);
             }
         });
 
-        btnExtrairArquivo.setText("Extrair");
+        btnExtrairArquivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/BotaoExtrair.png"))); // NOI18N
+        btnExtrairArquivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnExtrairArquivoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnExtrairArquivoMouseExited(evt);
+            }
+        });
         btnExtrairArquivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExtrairArquivoActionPerformed(evt);
             }
         });
 
-        btnExtrairTudo.setText("Extrair Tudo");
+        btnExtrairTudo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/BotaoExtrairTudo.png"))); // NOI18N
+        btnExtrairTudo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnExtrairTudoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnExtrairTudoMouseExited(evt);
+            }
+        });
         btnExtrairTudo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExtrairTudoActionPerformed(evt);
             }
         });
 
+        btnEscolherDiretorio.setText("...");
         btnEscolherDiretorio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEscolherDiretorioActionPerformed(evt);
@@ -185,7 +218,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(48, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -209,20 +242,23 @@ public class TelaPrincipal extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                     .addComponent(txtArquivadorDiretorio, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(btnEscolherDiretorio)
-                                    .addGap(12, 12, 12)
+                                    .addGap(24, 24, 24)
                                     .addComponent(txtArquivadorNome, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(txtArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(btnEscolherArquivo)
-                                .addComponent(txtArquivadorExtensao, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtArquivadorExtensao, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnEscolherArquivo)))))
                 .addGap(47, 47, 47))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(263, 263, 263)
                 .addComponent(chkNovoDiretorio)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lblBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,7 +266,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addComponent(jLabel1)
                 .addGap(7, 7, 7)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEscolherArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -240,25 +276,27 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtArquivadorDiretorio, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtArquivadorDiretorio, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEscolherDiretorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(5, 5, 5)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtArquivadorNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtArquivadorExtensao, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnEscolherDiretorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtArquivadorNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtArquivadorExtensao, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(chkNovoDiretorio)
                 .addGap(11, 11, 11)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAdicionarArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRemoverArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnRemoverArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAdicionarArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnExtrairArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExtrairTudo, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel1.add(jPanel2);
@@ -414,6 +452,71 @@ public class TelaPrincipal extends javax.swing.JFrame {
         trocouArchive();
     }//GEN-LAST:event_txtArquivadorNomeFocusLost
 
+    private void btnRemoverArquivoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRemoverArquivoMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/imagens/BotaoRemoverHover.png"));
+        btnRemoverArquivo.setIcon(i);
+    }//GEN-LAST:event_btnRemoverArquivoMouseEntered
+
+    private void btnRemoverArquivoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRemoverArquivoMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/imagens/BotaoRemover.png"));
+        btnRemoverArquivo.setIcon(i);
+    }//GEN-LAST:event_btnRemoverArquivoMouseExited
+
+    private void btnAdicionarArquivoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdicionarArquivoMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/imagens/BotaoAdicionarHover.png"));
+        btnAdicionarArquivo.setIcon(i);
+    }//GEN-LAST:event_btnAdicionarArquivoMouseEntered
+
+    private void btnAdicionarArquivoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdicionarArquivoMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/imagens/BotaoAdicionar.png"));
+        btnAdicionarArquivo.setIcon(i);
+    }//GEN-LAST:event_btnAdicionarArquivoMouseExited
+
+    private void btnExtrairArquivoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExtrairArquivoMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/imagens/BotaoExtrairHover.png"));
+        btnExtrairArquivo.setIcon(i);
+    }//GEN-LAST:event_btnExtrairArquivoMouseEntered
+
+    private void btnExtrairArquivoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExtrairArquivoMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/imagens/BotaoExtrair.png"));
+        btnExtrairArquivo.setIcon(i);
+    }//GEN-LAST:event_btnExtrairArquivoMouseExited
+
+    private void btnExtrairTudoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExtrairTudoMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/imagens/BotaoExtrairTudoHover.png"));
+        btnExtrairTudo.setIcon(i);
+    }//GEN-LAST:event_btnExtrairTudoMouseEntered
+
+    private void btnExtrairTudoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExtrairTudoMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/imagens/BotaoExtrairTudo.png"));
+        btnExtrairTudo.setIcon(i);
+    }//GEN-LAST:event_btnExtrairTudoMouseExited
+
+    public class ArquivadoSucesso extends javax.swing.JDialog {
+        private String frase;
+    
+        public String getFrase(){
+            return frase;
+        }
+
+        public void setFrase(String frase){
+            this.frase = frase;
+        }
+        
+        public ArquivadoSucesso(java.awt.Frame parent, boolean modal, String mensagem, String titulo){
+            super(parent, modal);
+            this.getContentPane().setBackground(new Color(182, 230, 245));
+            this.setLocationRelativeTo(null);
+            initComponents();
+            lblMensagem.setText(mensagem);
+            this.setTitle(titulo);
+        }
+        
+       private javax.swing.JButton btnCancelar;
+       private javax.swing.JButton btnOk;
+       private javax.swing.JLabel lblMensagem;
+        
+    }
     /**
      * @param args the command line arguments
      */
