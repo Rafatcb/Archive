@@ -492,31 +492,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         btnExtrairTudo.setIcon(i);
     }//GEN-LAST:event_btnExtrairTudoMouseExited
 
-    public class ArquivadoSucesso extends javax.swing.JDialog {
-        private String frase;
-    
-        public String getFrase(){
-            return frase;
-        }
-
-        public void setFrase(String frase){
-            this.frase = frase;
-        }
-        
-        public ArquivadoSucesso(java.awt.Frame parent, boolean modal, String mensagem, String titulo){
-            super(parent, modal);
-            this.getContentPane().setBackground(new Color(182, 230, 245));
-            this.setLocationRelativeTo(null);
-            initComponents();
-            lblMensagem.setText(mensagem);
-            this.setTitle(titulo);
-        }
-        
-       private javax.swing.JButton btnCancelar;
-       private javax.swing.JButton btnOk;
-       private javax.swing.JLabel lblMensagem;
-        
-    }
     /**
      * @param args the command line arguments
      */
