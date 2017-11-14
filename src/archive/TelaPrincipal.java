@@ -30,6 +30,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         this.setTitle("Archive");
         Container c = this.getContentPane();
         c.setBackground(new Color(182, 230, 245));
+        ImageIcon i = new ImageIcon(getClass().getResource("/imagens/icon.png"));
+        this.setIconImage(i.getImage());
         txtArquivo.setDisabledTextColor(Color.black);
         txtArquivadorDiretorio.setDisabledTextColor(Color.black);
         txtArquivadorDiretorio.setText(System.getProperty("user.dir"));
@@ -220,7 +222,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(323, 323, 323)
@@ -239,14 +240,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
                                 .addComponent(btnExtrairTudo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(146, 146, 146)))
                         .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                    .addComponent(txtArquivadorDiretorio, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btnEscolherDiretorio)
-                                    .addGap(24, 24, 24)
-                                    .addComponent(txtArquivadorNome, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(txtArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                        .addComponent(txtArquivadorDiretorio, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnEscolherDiretorio)
+                                        .addGap(24, 24, 24)
+                                        .addComponent(txtArquivadorNome, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addGap(657, 657, 657)))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txtArquivadorExtensao, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -268,7 +273,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGap(7, 7, 7)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEscolherArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEscolherArquivo))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -330,66 +335,78 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void btnAdicionarArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarArquivoActionPerformed
         try {
             if (arq.getName().length() > 100) {
-                // Exibe mensagem de "o arquivo deve possuir um nome com até 100 caracteres"
+                MensagemOkModal modal = new MensagemOkModal(this, true, "<html>O arquivo deve possuir um nome com até 100 caracteres</html>", "Erro - Tamanho do nome excedidto");
+                modal.setVisible(true);
                 return;
             }
             if (arq.length() >= 100000000) {
-                // Exibe mensagem de "o arquivo deve possuir até 99 MB"
+                MensagemOkModal modal = new MensagemOkModal(this, true, "<html>O arquio deve possuir até 99 MB</html>", "Erro - Tamanho do arquivo excedido");
+                modal.setVisible(true);
                 return;
             }
             if (archive.getQuantidadeArquivos() == 99) {
-                // Exibe mensagem de "o limite de arquivos foi alcançado (99)"
+                MensagemOkModal modal = new MensagemOkModal(this, true, "<html>O limite de 99 arquivos foi alcançado</html>", "Erro - Limite de arquivos alcançado");
+                modal.setVisible(true);
                 return;
             }
             if (txtArquivadorDiretorio.getText().length() == 0) {
-                // Exibe mensagem de "selecione um diretório para o archive"
+                MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Selecione um diretório para o Archive</html>", "Erro - Selecione um diretório");
+                modal.setVisible(true);
                 return;
             }
             if (txtArquivadorNome.getText().length() == 0) {
-                // Exibe mensagem de "digite o nome do archive"
+                MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Digite o nome do Archive</html>", "Erro - Nome do Archive não especificado");
+                modal.setVisible(true);
                 return;
             }
             for (Arquivo arquivo : archive.getArquivos()) {
                 if (arq.getName().equals(arquivo.getNome())) {
-                    // Exibe mensagem de "já existe um arquivo com este nome"
+                    MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Já existe um arquivo com este nome no Archive selecionado</html>", "Erro - Arquivo já arquivado");
+                    modal.setVisible(true);
                     return;
                 }
             }
             File fileArchive = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText() + txtArquivadorExtensao.getText());
             archive.setArchive(fileArchive);
             if (archive.escreverArquivo(arq)) {
-                // Exibir mensagem de "O arquivo foi adicionado com sucesso ao archive "txtArquivador.getText()   .got."
+                MensagemOkModal modal = new MensagemOkModal(this, true, "<html>O arquivo foi adicionado com sucesso ao archive \\" + txtArquivadorNome.getText() + ".got.</html>", "Sucesso - Arquivo adicionado");
+                modal.setVisible(true);
             }
             else {
-                // Exibir mensagem de "Arquivo não adicionado"
+                MensagemOkModal modal = new MensagemOkModal(this, true, "<html>O arquivo não foi adicionado. Tente novamente ou verifique as permissões de acesso do Sistema Operacional</html>", "Erro - Arquivo não adicionado");
+                modal.setVisible(true);
             }
             tblArquivos.setModel(new ArquivosTableModel(archive.getArquivos()));
             gerarTabelaArquivos();
             txtArquivo.setText("");
-        } catch (NullPointerException ex) { // Mensagem selecione um arquivo
+        } catch (NullPointerException ex) {
+            MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Selecione um arquivo</html>", "Erro - Arquivo não selecionado");
+            modal.setVisible(true);
         }
     }//GEN-LAST:event_btnAdicionarArquivoActionPerformed
 
     private void btnRemoverArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverArquivoActionPerformed
         if (tblArquivos.getSelectedRow() == -1) {
-            // Exibir mensagem "selecione um arquivo"
+            MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Selecione um arquivo</html>", "Erro - Arquivo não selecionado");
+            modal.setVisible(true);
         }
         else {
-            // Exibir mensagem de confirmação
-            // if(confirmado) 
-            archive.removeArquivos(tblArquivos.getSelectedRow());
-            tblArquivos.setModel(new ArquivosTableModel(archive.getArquivos()));
-            gerarTabelaArquivos();
+            ConfirmacaoModal modal = new ConfirmacaoModal(this, true, "<html>Você tem certeza que deseja remover o arquivo " + tblArquivos.getValueAt(tblArquivos.getSelectedRow(), 0)  + "?</html>", "Confirmação de Remoção");
+            modal.setVisible(true);
+            if (modal.isConfirmado()) {
+                archive.removeArquivos(tblArquivos.getSelectedRow());
+                tblArquivos.setModel(new ArquivosTableModel(archive.getArquivos()));
+                gerarTabelaArquivos();
+            }
         }
     }//GEN-LAST:event_btnRemoverArquivoActionPerformed
 
     private void btnExtrairArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExtrairArquivoActionPerformed
         if (tblArquivos.getSelectedRow() == -1) {
-            // Exibir mensagem "selecione um arquivo"
+            MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Selecione um arquivo</html>", "Erro - Arquivo não selecionado");
+            modal.setVisible(true);
         }
         else {
-            // Exibir mensagem de confirmação
-            // if(confirmado) 
             if (chkNovoDiretorio.isSelected()) {
                 File diretorio = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText() + File.separator);
                 if (!diretorio.exists()) {
@@ -397,7 +414,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         diretorio.mkdir();
                     } 
                     catch(SecurityException se){
-                        //mensagem de "Acesso negado pelo Sistema Operacional"
+                        MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Acesso negado pelo Sistema Operacional, verifique as permissões de acesso do arquivo</html>", "Erro - Acesso negado");
+                        modal.setVisible(true);
+                        return;
                     }        
                 }
                 File fileExtracao = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText());
@@ -408,31 +427,39 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 archive.setExtracao(fileExtracao);
             }
             archive.extrairArquivo(tblArquivos.getSelectedRow());
+            MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Extração realizada com sucesso</html>", "Sucesso - Extração realizada");
+            modal.setVisible(true);
         }
     }//GEN-LAST:event_btnExtrairArquivoActionPerformed
 
     private void btnExtrairTudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExtrairTudoActionPerformed
-        // Exibir mensagem de confirmação
-        // if(confirmado) 
-        if (chkNovoDiretorio.isSelected()) {
-            File diretorio = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText() + File.separator);
-            if (!diretorio.exists()) {
-                try{
-                    diretorio.mkdir();
-                } 
-                catch(SecurityException se){
-                    //mensagem de "Acesso negado pelo Sistema Operacional"
-                }        
+        ConfirmacaoModal modal2 = new ConfirmacaoModal(this, true, "<html>Você deseja extrair todos os arquivos?</html>", "Confirmação de Extração");
+        modal2.setVisible(true);
+        if (modal2.isConfirmado()) {
+            if (chkNovoDiretorio.isSelected()) {
+                File diretorio = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText() + File.separator);
+                if (!diretorio.exists()) {
+                    try{
+                        diretorio.mkdir();
+                    } 
+                    catch(SecurityException se){
+                        MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Acesso negado pelo Sistema Operacional, verifique as permissões de acesso do arquivo</html>", "Erro - Acesso negado");
+                        modal.setVisible(true);
+                        return;
+                    }        
+                }
+                File fileExtracao = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText());
+                archive.setExtracao(fileExtracao);
             }
-            File fileExtracao = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText());
-            archive.setExtracao(fileExtracao);
-        }
-        else {
-            File fileExtracao = new File(txtArquivadorDiretorio.getText());
-            archive.setExtracao(fileExtracao);
-        }
-        for (int i = 0; i < tblArquivos.getRowCount(); i++) {
-            archive.extrairArquivo(i);
+            else {
+                File fileExtracao = new File(txtArquivadorDiretorio.getText());
+                archive.setExtracao(fileExtracao);
+            }
+            for (int i = 0; i < tblArquivos.getRowCount(); i++) {
+                archive.extrairArquivo(i);
+            }
+            MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Extração realizada com sucesso</html>", "Sucesso - Extração realizada");
+            modal.setVisible(true);
         }
     }//GEN-LAST:event_btnExtrairTudoActionPerformed
 
@@ -527,6 +554,243 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
     }
 
+    public class MensagemOkModal extends javax.swing.JDialog {
+        /**
+         * Creates new form MensagemOk
+         */
+        public MensagemOkModal(java.awt.Frame parent, boolean modal, String mensagem, String titulo) {
+            super(parent, modal);
+            initComponents();
+            ImageIcon i = new ImageIcon(getClass().getResource("/imagens/icon.png"));
+            this.setIconImage(i.getImage());
+            this.getContentPane().setBackground(new Color(182, 230, 245));
+            this.setLocationRelativeTo(null);
+            lblMensagem.setText(mensagem);
+            this.setTitle(titulo);
+        }
+
+        /**
+         * This method is called from within the constructor to initialize the form.
+         * WARNING: Do NOT modify this code. The content of this method is always
+         * regenerated by the Form Editor.
+         */
+        @SuppressWarnings("unchecked")
+        // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+        private void initComponents() {
+
+            jButtonOk = new javax.swing.JButton();
+            lblMensagem = new javax.swing.JLabel();
+
+            setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+            jButtonOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/BotaoOk.png"))); // NOI18N
+            jButtonOk.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    jButtonOkMouseEntered(evt);
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    jButtonOkMouseExited(evt);
+                }
+            });
+            jButtonOk.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButtonOkActionPerformed(evt);
+                }
+            });
+
+            lblMensagem.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            lblMensagem.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(170, Short.MAX_VALUE)
+                    .addComponent(jButtonOk, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(165, 165, 165))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(20, 20, 20)
+                    .addComponent(lblMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(52, Short.MAX_VALUE)
+                    .addComponent(lblMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(30, 30, 30)
+                    .addComponent(jButtonOk, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(50, 50, 50))
+            );
+
+            pack();
+        }// </editor-fold>                        
+
+        private void jButtonOkMouseEntered(java.awt.event.MouseEvent evt) {                                       
+            ImageIcon i = new ImageIcon(getClass().getResource("/imagens/BotaoOkHover.png"));
+            jButtonOk.setIcon(i);
+        }                                      
+
+        private void jButtonOkMouseExited(java.awt.event.MouseEvent evt) {                                      
+            ImageIcon i = new ImageIcon(getClass().getResource("/imagens/BotaoOk.png"));
+            jButtonOk.setIcon(i);
+        }
+        private void jButtonOkActionPerformed(java.awt.event.ActionEvent evt) {                                          
+            dispose();
+        }  
+
+        // Variables declaration - do not modify                     
+        private javax.swing.JButton jButtonOk;
+        private javax.swing.JLabel lblMensagem;
+        // End of variables declaration                   
+    }
+    
+    
+    public class ConfirmacaoModal extends javax.swing.JDialog {
+        private boolean confirmado = false;
+
+        public boolean isConfirmado() {
+            return confirmado;
+        }
+
+        public void setConfirmado(boolean confimado) {
+            this.confirmado = confimado;
+        }
+
+
+        /**
+         * Creates new form Confirmação
+         */
+        public ConfirmacaoModal(java.awt.Frame parent, boolean modal, String mensagem, String titulo) {
+            super(parent, modal);
+            initComponents();
+            ImageIcon i = new ImageIcon(getClass().getResource("/imagens/icon.png"));
+            this.setIconImage(i.getImage());
+            this.getContentPane().setBackground(new Color(182, 230, 245));
+            this.setLocationRelativeTo(null);
+            lblMensagem.setText(mensagem);
+            this.setTitle(titulo);
+        }
+
+        /**
+         * This method is called from within the constructor to initialize the form.
+         * WARNING: Do NOT modify this code. The content of this method is always
+         * regenerated by the Form Editor.
+         */
+        @SuppressWarnings("unchecked")
+        // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+        private void initComponents() {
+
+            jButtonCancelar = new javax.swing.JButton();
+            jButtonConfirmar = new javax.swing.JButton();
+            lblMensagem = new javax.swing.JLabel();
+
+            setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+            jButtonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/BotaoCancelar.png"))); // NOI18N
+            jButtonCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    jButtonCancelarMouseEntered(evt);
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    jButtonCancelarMouseExited(evt);
+                }
+            });
+            jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButtonCancelarActionPerformed(evt);
+                }
+            });
+
+            jButtonConfirmar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/BotaoConfirmar.png"))); // NOI18N
+            jButtonConfirmar.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    jButtonConfirmarMouseEntered(evt);
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    jButtonConfirmarMouseExited(evt);
+                }
+            });
+            jButtonConfirmar.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButtonConfirmarActionPerformed(evt);
+                }
+            });
+
+            lblMensagem.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            lblMensagem.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(88, 88, 88)
+                    .addComponent(jButtonConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(45, 45, 45)
+                    .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(41, Short.MAX_VALUE)
+                    .addComponent(lblMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(39, 39, 39))
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(46, Short.MAX_VALUE)
+                    .addComponent(lblMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(28, 28, 28)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jButtonConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(52, 52, 52))
+            );
+
+            pack();
+        }// </editor-fold>                        
+
+        private void jButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+            this.setConfirmado(true);
+            dispose();
+        }                                                
+
+        private void jButtonConfirmarMouseEntered(java.awt.event.MouseEvent evt) {                                              
+            ImageIcon i = new ImageIcon(getClass().getResource("/imagens/BotaoConfirmarHover.png"));
+            jButtonConfirmar.setIcon(i);
+        }                                             
+
+        private void jButtonConfirmarMouseExited(java.awt.event.MouseEvent evt) {                                             
+            ImageIcon i = new ImageIcon(getClass().getResource("/imagens/BotaoConfirmar.png"));
+            jButtonConfirmar.setIcon(i);
+        }                                            
+
+        private void jButtonCancelarMouseEntered(java.awt.event.MouseEvent evt) {                                             
+            ImageIcon i = new ImageIcon(getClass().getResource("/imagens/BotaoCancelarHover.png"));
+            jButtonCancelar.setIcon(i);
+        }                                            
+
+        private void jButtonCancelarMouseExited(java.awt.event.MouseEvent evt) {                                            
+            ImageIcon i = new ImageIcon(getClass().getResource("/imagens/BotaoCancelar.png"));
+            jButtonCancelar.setIcon(i);
+        }                                           
+
+        private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {                                                
+            this.setConfirmado(false);
+            dispose();
+        }
+
+        // Variables declaration - do not modify                     
+        private javax.swing.JButton jButtonCancelar;
+        private javax.swing.JButton jButtonConfirmar;
+        private javax.swing.JLabel lblMensagem;
+        // End of variables declaration                   
+    }
+
+
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionarArquivo;
     private javax.swing.JButton btnEscolherArquivo;

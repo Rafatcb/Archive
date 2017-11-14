@@ -59,7 +59,6 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="323" pref="323" max="-2" attributes="0"/>
@@ -81,20 +80,26 @@
                                   </Group>
                               </Group>
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="txtArquivadorDiretorio" min="-2" pref="440" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="btnEscolherDiretorio" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                                          <Component id="txtArquivadorNome" min="-2" pref="197" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" alignment="1" groupAlignment="1" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="txtArquivadorDiretorio" min="-2" pref="440" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="btnEscolherDiretorio" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                                              <Component id="txtArquivadorNome" min="-2" pref="197" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="txtArquivo" min="-2" pref="700" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="txtArquivo" min="-2" pref="700" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="657" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="txtArquivadorExtensao" min="-2" pref="45" max="-2" attributes="0"/>
-                                      <Component id="btnEscolherArquivo" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnEscolherArquivo" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -120,9 +125,9 @@
                       <EmptySpace min="7" pref="7" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="txtArquivo" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnEscolherArquivo" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
+                          <Component id="btnEscolherArquivo" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
