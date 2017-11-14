@@ -402,63 +402,75 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRemoverArquivoActionPerformed
 
     private void btnExtrairArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExtrairArquivoActionPerformed
-        if (tblArquivos.getSelectedRow() == -1) {
-            MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Selecione um arquivo</html>", "Erro - Arquivo não selecionado");
-            modal.setVisible(true);
-        }
-        else {
-            if (chkNovoDiretorio.isSelected()) {
-                File diretorio = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText() + File.separator);
-                if (!diretorio.exists()) {
-                    try{
-                        diretorio.mkdir();
-                    } 
-                    catch(SecurityException se){
-                        MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Acesso negado pelo Sistema Operacional, verifique as permissões de acesso do arquivo</html>", "Erro - Acesso negado");
-                        modal.setVisible(true);
-                        return;
-                    }        
-                }
-                File fileExtracao = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText());
-                archive.setExtracao(fileExtracao);
+        if (tblArquivos.getRowCount() > 0) {
+            if (tblArquivos.getSelectedRow() == -1) {
+                MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Selecione um arquivo</html>", "Erro - Arquivo não selecionado");
+                modal.setVisible(true);
             }
             else {
-                File fileExtracao = new File(txtArquivadorDiretorio.getText());
-                archive.setExtracao(fileExtracao);
+                if (chkNovoDiretorio.isSelected()) {
+                    File diretorio = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText() + File.separator);
+                    if (!diretorio.exists()) {
+                        try{
+                            diretorio.mkdir();
+                        } 
+                        catch(SecurityException se){
+                            MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Acesso negado pelo Sistema Operacional, verifique as permissões de acesso do arquivo</html>", "Erro - Acesso negado");
+                            modal.setVisible(true);
+                            return;
+                        }        
+                    }
+                    File fileExtracao = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText());
+                    archive.setExtracao(fileExtracao);
+                }
+                else {
+                    File fileExtracao = new File(txtArquivadorDiretorio.getText());
+                    archive.setExtracao(fileExtracao);
+                }
+                archive.extrairArquivo(tblArquivos.getSelectedRow());
+                MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Extração realizada com sucesso</html>", "Sucesso - Extração realizada");
+                modal.setVisible(true);
             }
-            archive.extrairArquivo(tblArquivos.getSelectedRow());
-            MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Extração realizada com sucesso</html>", "Sucesso - Extração realizada");
+        }
+        else {
+            MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Não há nenhum arquivo no Archive</html>", "Erro - Nenhum arquivo foi arquivado");
             modal.setVisible(true);
         }
     }//GEN-LAST:event_btnExtrairArquivoActionPerformed
 
     private void btnExtrairTudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExtrairTudoActionPerformed
-        ConfirmacaoModal modal2 = new ConfirmacaoModal(this, true, "<html>Você deseja extrair todos os arquivos?</html>", "Confirmação de Extração");
-        modal2.setVisible(true);
-        if (modal2.isConfirmado()) {
-            if (chkNovoDiretorio.isSelected()) {
-                File diretorio = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText() + File.separator);
-                if (!diretorio.exists()) {
-                    try{
-                        diretorio.mkdir();
-                    } 
-                    catch(SecurityException se){
-                        MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Acesso negado pelo Sistema Operacional, verifique as permissões de acesso do arquivo</html>", "Erro - Acesso negado");
-                        modal.setVisible(true);
-                        return;
-                    }        
+        if (tblArquivos.getRowCount() > 0) {
+            ConfirmacaoModal modal2 = new ConfirmacaoModal(this, true, "<html>Você deseja extrair todos os arquivos?</html>", "Confirmação de Extração");
+            modal2.setVisible(true);
+            if (modal2.isConfirmado()) {
+                if (chkNovoDiretorio.isSelected()) {
+                    File diretorio = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText() + File.separator);
+                    if (!diretorio.exists()) {
+                        try{
+                            diretorio.mkdir();
+                        } 
+                        catch(SecurityException se){
+                            MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Acesso negado pelo Sistema Operacional, verifique as permissões de acesso do arquivo</html>", "Erro - Acesso negado");
+                            modal.setVisible(true);
+                            return;
+                        }        
+                    }
+                    File fileExtracao = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText());
+                    archive.setExtracao(fileExtracao);
                 }
-                File fileExtracao = new File(txtArquivadorDiretorio.getText() + File.separator + txtArquivadorNome.getText());
-                archive.setExtracao(fileExtracao);
+                else {
+                    File fileExtracao = new File(txtArquivadorDiretorio.getText());
+                    archive.setExtracao(fileExtracao);
+                }
+                for (int i = 0; i < tblArquivos.getRowCount(); i++) {
+                    archive.extrairArquivo(i);
+                }
+                MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Extração realizada com sucesso</html>", "Sucesso - Extração realizada");
+                modal.setVisible(true);
             }
-            else {
-                File fileExtracao = new File(txtArquivadorDiretorio.getText());
-                archive.setExtracao(fileExtracao);
-            }
-            for (int i = 0; i < tblArquivos.getRowCount(); i++) {
-                archive.extrairArquivo(i);
-            }
-            MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Extração realizada com sucesso</html>", "Sucesso - Extração realizada");
+        }
+        else {
+            MensagemOkModal modal = new MensagemOkModal(this, true, "<html>Não há nenhum arquivo no Archive</html>", "Erro - Nenhum arquivo foi arquivado");
             modal.setVisible(true);
         }
     }//GEN-LAST:event_btnExtrairTudoActionPerformed
