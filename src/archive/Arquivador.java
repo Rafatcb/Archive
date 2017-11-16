@@ -40,7 +40,6 @@ public class Arquivador {
                 for (int i = 0; i < this.quantidadeArquivos; i++) {
                     /* Gravação das novas informações no Header */
                     String qtd = String.format("%02d", this.quantidadeArquivos);
-                    System.out.println(qtd);
                     raf.seek(0);
                     raf.write(qtd.getBytes());
 
@@ -64,7 +63,6 @@ public class Arquivador {
                 raf.close();
             }
             else {
-                System.out.println(this.archive);
                 Files.delete(this.archive.toPath());
             }
         } catch (IOException ex){
